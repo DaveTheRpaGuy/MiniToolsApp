@@ -1,5 +1,5 @@
-using MiniTools.Client.Pages;
-using MiniTools.Components;
+using ToolsAndGames.Client.Pages;
+using ToolsAndGames.Components;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -30,6 +30,6 @@ app.UseAntiforgery();
 app.MapRazorComponents<App>()
     .AddInteractiveServerRenderMode()
     .AddInteractiveWebAssemblyRenderMode()
-    .AddAdditionalAssemblies(typeof(MiniTools.Client._Imports).Assembly);
+    .AddAdditionalAssemblies(typeof(ToolsAndGames.Client._Imports).Assembly);
 
 app.Run();

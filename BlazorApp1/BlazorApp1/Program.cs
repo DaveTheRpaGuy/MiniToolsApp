@@ -1,5 +1,5 @@
-using MiniTools.Client.Pages;
-using MiniTools.Components;
+using BlazorApp1.Client.Pages;
+using BlazorApp1.Components;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -30,6 +30,6 @@ app.UseAntiforgery();
 app.MapRazorComponents<App>()
     .AddInteractiveServerRenderMode()
     .AddInteractiveWebAssemblyRenderMode()
-    .AddAdditionalAssemblies(typeof(MiniTools.Client._Imports).Assembly);
+    .AddAdditionalAssemblies(typeof(BlazorApp1.Client._Imports).Assembly);
 
 app.Run();
