@@ -28,5 +28,28 @@ public class MathOperations
         return a / b;
     }
 
+    public double Modulus(double a, double b)
+    {
+        return a % b;
+    }
+
+    public double Reciprocal(double a)
+    {
+        return 1 / a;
+    }
     
+    public double Square(double a)
+    {
+        return a * a;
+    }
+
+    public double SquareRoot(double a)
+    {
+        return Math.Sqrt(a);
+    }
+
+    public double ReverseSign(double a)
+    {
+        return a * -1;
+    }
 }
