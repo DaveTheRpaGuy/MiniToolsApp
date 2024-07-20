@@ -7,6 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\CalculatorLibrary\CalculatorLibrary.csproj" />
     <ProjectReference Include="..\ToolsAndGames.Client\ToolsAndGames.Client.csproj" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="8.0.7" />
   </ItemGroup>

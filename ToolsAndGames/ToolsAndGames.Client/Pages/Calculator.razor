@@ -1,100 +1,235 @@
 ﻿@page "/calculator"
 @page "/calc"
 @rendermode InteractiveAuto
+@using CalculatorLibrary
 
-<h3>Calculator</h3>
-<div class="container text-center">
+<h1>Calculator</h1>
+<div class="calculator container text-center">
     <div class="row">
-        <div class="col p-0 m-1">
-            <button class="btn btn-primary w-100" id="modulo">%</button>
+        <input class="fs-4 text-end" type="text" @bind="secondaryInput" />
+    </div>
+    <div class="row">
+        
+        <input class="fs-1 text-end" type="text" @bind="primaryInput"/>
+    </div>
+    <div class="row">
+        <div class="col">
+            <button class="btn btn-primary btn-outer" id="modulus">%</button>
         </div>
-        <div class="col p-0 m-1">
-            <button class="btn btn-primary w-100" id="clearEntry">CE</button>
+        <div class="col">
+            <button class="btn btn-primary btn-outer" id="clearEntry">CE</button>
         </div>
-        <div class="col p-0 m-1">
-            <button class="btn btn-primary w-100" id="clearCalc">C</button>
+        <div class="col">
+            <button class="btn btn-primary btn-outer" id="clearCalc" @onclick="(() => ClearAllInputs())">C</button>
         </div>
-        <div class="col p-0 m-1">
-            <button class="btn btn-primary w-100" id="backspace">B</button>
+        <div class="col">
+            <button class="btn btn-primary btn-outer" id="backspace">B</button>
         </div>
     </div>
     <div class="row">
-        <div class="col p-0 m-1">
-            <button class="btn btn-primary w-100" id="reciprocal">1/X</button>
+        <div class="col">
+            <button class="btn btn-primary btn-outer" id="reciprocal">1/X</button>
         </div>
-        <div class="col p-0 m-1">
-            <button class="btn btn-primary w-100" id="square">Sq</button>
+        <div class="col">
+            <button class="btn btn-primary btn-outer" id="square">Sq</button>
         </div>
-        <div class="col p-0 m-1">
-            <button class="btn btn-primary w-100" id="squareRoot">SqRt</button>
+        <div class="col">
+            <button class="btn btn-primary btn-outer" id="squareRoot">SqRt</button>
         </div>
-        <div class="col p-0 m-1">
-            <button class="btn btn-primary w-100" id="divide">/</button>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col p-0 m-1">
-            <button class="btn btn-primary w-100" id="seven">7</button>
-        </div>
-        <div class="col p-0 m-1">
-            <button class="btn btn-primary w-100" id="eight">8</button>
-        </div>
-        <div class="col p-0 m-1">
-            <button class="btn btn-primary w-100" id="nine">9</button>
-        </div>
-        <div class="col p-0 m-1">
-            <button class="btn btn-primary w-100" id="multiply">x</button>
+        <div class="col">
+            <button class="btn btn-primary btn-outer" id="divide" @onclick="(() => SubmitFirstNumber(Operation.Divide))">/</button>
         </div>
     </div>
     <div class="row">
-        <div class="col p-0 m-1">
-            <button class="btn btn-primary w-100" id="four">4</button>
+        <div class="col">
+            <button class="btn btn-primary btn-core" id="seven" @onclick="(() => AppendNumberToPrimaryInput(7))">7</button>
         </div>
-        <div class="col p-0 m-1">
-            <button class="btn btn-primary w-100" id="fifth">5</button>
+        <div class="col">
+            <button class="btn btn-primary btn-core" id="eight" @onclick="(() => AppendNumberToPrimaryInput(8))">8</button>
         </div>
-        <div class="col p-0 m-1">
-            <button class="btn btn-primary w-100" id="six">6</button>
+        <div class="col">
+            <button class="btn btn-primary btn-core" id="nine" @onclick="(() => AppendNumberToPrimaryInput(9))">9</button>
         </div>
-        <div class="col p-0 m-1">
-            <button class="btn btn-primary w-100" id="subtract">-</button>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col p-0 m-1">
-            <button class="btn btn-primary w-100" id="one">1</button>
-        </div>
-        <div class="col p-0 m-1">
-            <button class="btn btn-primary w-100" id="two">2</button>
-        </div>
-        <div class="col p-0 m-1">
-            <button class="btn btn-primary w-100" id="three">3</button>
-        </div>
-        <div class="col p-0 m-1">
-            <button class="btn btn-primary w-100" id="plus">+</button>
+        <div class="col">
+            <button class="btn btn-primary btn-outer" id="multiply" @onclick="(() => SubmitFirstNumber(Operation.Multiply))">x</button>
         </div>
     </div>
     <div class="row">
-        <div class="col p-0 m-1">
-            <button class="btn btn-primary w-100" id="sign">+/-</button>
-
+        <div class="col">
+            <button class="btn btn-primary btn-core" id="four" @onclick="(() => AppendNumberToPrimaryInput(4))">4</button>
         </div>
-        <div class="col p-0 m-1">
-            <button class="btn btn-primary w-100" id="zero">0</button>
-
+        <div class="col">
+            <button class="btn btn-primary btn-core" id="fifth" @onclick="(() => AppendNumberToPrimaryInput(5))">5</button>
         </div>
-        <div class="col p-0 m-1">
-            <button class="btn btn-primary w-100" id="decimal">.</button>
-
+        <div class="col">
+            <button class="btn btn-primary btn-core" id="six" @onclick="(() => AppendNumberToPrimaryInput(6))">6</button>
         </div>
-        <div class="col p-0 m-1">
-            <button class="btn btn-primary w-100" id="equals">=</button>
-
+        <div class="col">
+            <button class="btn btn-primary btn-outer" id="subtract" @onclick="(() => SubmitFirstNumber(Operation.Subtract))">-</button>
         </div>
     </div>
-
+    <div class="row">
+        <div class="col">
+            <button class="btn btn-primary btn-core" id="one" @onclick="(() => AppendNumberToPrimaryInput(1))">1</button>
+        </div>
+        <div class="col">
+            <button class="btn btn-primary btn-core" id="two" @onclick="(() => AppendNumberToPrimaryInput(2))">2</button>
+        </div>
+        <div class="col">
+            <button class="btn btn-primary btn-core" id="three" @onclick="(() => AppendNumberToPrimaryInput(3))">3</button>
+        </div>
+        <div class="col">
+            <button class="btn btn-primary btn-outer" id="plus" @onclick="(() => SubmitFirstNumber(Operation.Add))">+</button>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <button class="btn btn-primary btn-core" id="sign">+/-</button>
+        </div>
+        <div class="col">
+            <button class="btn btn-primary btn-core" id="zero" @onclick="(() => AppendNumberToPrimaryInput(0))">0</button>
+        </div>
+        <div class="col">
+            <button class="btn btn-primary btn-core" id="decimal" @onclick="(() => AppendCharToPrimaryInput('.'))">.</button>
+        </div>
+        <div class="col">
+            <button class="btn btn-primary btn-equals" id="equals" @onclick="(() => RunEquals())">=</button>
+        </div>
+    </div>
 </div>
 
 @code {
+    private string primaryInput = "";
+    private string secondaryInput = "";
+    private double? firstNumber = null;
+    private double? secondNumber = null;
+    private Operation operation = Operation.None;
+    private bool clearPrimaryInput = false;
+    private bool clearSecondaryInput = false;
 
+    private enum Operation
+    {
+        None,
+        Add,
+        Subtract,
+        Multiply,
+        Divide
+    }
+
+    private void AppendNumberToPrimaryInput(int num)
+    {
+        ClearPrimaryInputIfApplicable();
+        ClearSecondaryInputIfApplicable();
+        primaryInput += num.ToString();
+    }
+
+    private void AppendCharToPrimaryInput(char c)
+    {
+        ClearPrimaryInputIfApplicable();
+        ClearSecondaryInputIfApplicable();
+        primaryInput += c;
+    }
+
+    private void ClearPrimaryInputIfApplicable()
+    {
+        if (clearPrimaryInput)
+        {
+            primaryInput = "";
+            clearPrimaryInput = false;
+        }
+    }
+
+    private void ClearSecondaryInputIfApplicable()
+    {
+        if (clearSecondaryInput)
+        {
+            secondaryInput = "";
+            clearSecondaryInput = false;
+        }
+    }
+
+    private void ClearAllInputs()
+    {
+        clearPrimaryInput = true;
+        clearSecondaryInput = true;
+        ClearPrimaryInputIfApplicable();
+        ClearSecondaryInputIfApplicable();
+    }
+
+    private void SubmitFirstNumber(Operation op)
+    {
+        firstNumber = double.Parse(primaryInput);
+        operation = op;
+        secondaryInput = firstNumber.ToString() + " " + GetOperationChar(op);
+        clearPrimaryInput = true;
+    }
+
+    private void RunEquals()
+    {
+        secondNumber = double.Parse(primaryInput);
+        double a = firstNumber ?? 0;
+        double b = secondNumber ?? 0;
+        double? result = RunMathOperation(a, b, operation);
+        if (result is null)
+        {
+            primaryInput = "eh?";
+        }
+        else
+        {
+            primaryInput = (string)(result.ToString());
+        }
+        secondaryInput = firstNumber.ToString() + " " + GetOperationChar(operation) + " " + secondNumber.ToString() + " =";
+        operation = Operation.None;
+        clearSecondaryInput = true;
+        clearPrimaryInput = true;
+    }
+
+    private string GetOperationChar(Operation op)
+    {
+        string output = "";
+        switch (op)
+        {
+            case Operation.Add:
+                output = "+";
+                break;
+            case Operation.Subtract:
+                output = "-";
+                break;
+            case Operation.Multiply:
+                output = "*";
+                break;
+            case Operation.Divide:
+                output = "/";
+                break;
+            default:
+                output = "";
+                break;
+        }
+        return output;
+    }
+
+    private double? RunMathOperation(double a, double b, Operation op)
+    {
+        MathOperations math = new MathOperations();
+        double? output = null;
+        switch (op)
+        {
+            case Operation.Add:
+                output = math.Add(a, b);
+                break;
+            case Operation.Subtract:
+                output = math.Subtract(a, b);
+                break;
+            case Operation.Multiply:
+                output = math.Multiply(a, b);
+                break;
+            case Operation.Divide:
+                output = math.Divide(a, b);
+                break;
+            default:
+                output = null;
+                break;
+        }
+        return output;
+    }
 }
