@@ -98,25 +98,26 @@
 </div>
 
 @code {
-    private string primaryInput = "0";
-    // public string primaryInput
-    // {
-    //     get { return _primaryInput.Replace(",","");}
-    //     set
-    //     {
-    //         _primaryInput = "";
-    //         int count = 0;
-    //         foreach (char c in primaryInput)
-    //         {
-    //             _primaryInput += c;
-    //             count++;
-    //             if (count % 3 == 0 && count < primaryInput.Length)
-    //             {
-    //                 _primaryInput = "," + _primaryInput;
-    //             }
-    //         }
-    //     }
-    // }
+    private string _primaryInput = "0";
+    public string primaryInput
+    {
+        get { return _primaryInput;}
+        set
+        {
+            _primaryInput = "";
+            int count = 0;
+            for(int i = value.Length-1; i > -1; i--)
+            {
+                _primaryInput = value[i] + _primaryInput;
+                count++;
+                if (count % 3 == 0 && i > 0)
+                {
+                    _primaryInput = "," + _primaryInput;
+                }
+            }
+         
+        }
+    }
 
     private string secondaryInput = "";
     private double? firstNumber = null;
@@ -205,7 +206,7 @@
     {
         ClearPrimaryInputIfApplicable();
         ClearSecondaryInputIfApplicable();
-        primaryInput += c;
+        primaryInput = primaryInput + c;
     }
 
     private void ClearPrimaryInputIfApplicable()
