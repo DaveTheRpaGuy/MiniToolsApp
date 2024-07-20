@@ -16,7 +16,7 @@
             <button class="btn btn-primary btn-outer" @onclick="(() => SubmitFirstNumber(Operation.Modulus))" @onkeypress:preventDefault>%</button>
         </div>
         <div class="col">
-            <button class="btn btn-primary btn-outer" @onkeypress:preventDefault>CE</button>
+            <button class="btn btn-primary btn-outer" @onclick="(() => ClearAllInputs())" @onkeypress:preventDefault>CE</button>
         </div>
         <div class="col">
             <button class="btn btn-primary btn-outer" @onclick="(() => ClearAllInputs())" @onkeypress:preventDefault>C</button>
@@ -30,10 +30,10 @@
             <button class="btn btn-primary btn-outer" @onclick="(() => SubmitFirstNumber(Operation.Reciprocal))" @onkeypress:preventDefault>1/X</button>
         </div>
         <div class="col">
-            <button class="btn btn-primary btn-outer" @onkeypress:preventDefault>Sq</button>
+            <button class="btn btn-primary btn-outer" @onclick="(() => SubmitFirstNumber(Operation.Square))" @onkeypress:preventDefault>Sq</button>
         </div>
         <div class="col">
-            <button class="btn btn-primary btn-outer" @onkeypress:preventDefault>SqRt</button>
+            <button class="btn btn-primary btn-outer" @onclick="(() => SubmitFirstNumber(Operation.SquareRoot))" @onkeypress:preventDefault>SqRt</button>
         </div>
         <div class="col">
             <button class="btn btn-primary btn-outer" @onclick="(() => SubmitFirstNumber(Operation.Divide))" @onkeypress:preventDefault>/</button>
@@ -83,7 +83,7 @@
     </div>
     <div class="row">
         <div class="col">
-            <button class="btn btn-primary btn-core" @onkeypress:preventDefault>+/-</button>
+            <button class="btn btn-primary btn-core" @onclick="(() => SubmitFirstNumber(Operation.ReverseSign))" @onkeypress:preventDefault>+/-</button>
         </div>
         <div class="col">
             <button class="btn btn-primary btn-core" @onclick="(() => AppendNumberToPrimaryInput(0))" @onkeypress:preventDefault>0</button>
@@ -118,7 +118,7 @@
                     _primaryInput = "," + _primaryInput;
                 }
             }
-         
+
         }
     }
 
@@ -176,10 +176,6 @@
         else if (keyPressed == "Enter")
         {
             RunEquals();
-        }
-        else if (keyPressed == "ESC")
-        {
-            ClearAllInputs();
         }
 
     }
@@ -251,9 +247,9 @@
         firstNumber = double.Parse(primaryInput);
         operation = op;
         secondaryInput = firstNumber.ToString() + " " + GetOperationChar(op);
-        if(op == Operation.Reciprocal || op == Operation.Square || op == Operation.SquareRoot)
+        if(op == Operation.Reciprocal || op == Operation.Square || op == Operation.SquareRoot || op == Operation.ReverseSign)
         {
-
+            RunEquals();
         }
         else
         {
@@ -267,7 +263,16 @@
         secondNumber = double.Parse(primaryInput);
         double a = firstNumber ?? 0;
         double b = secondNumber ?? 0;
-        double? result = RunMathOperation(a, b, operation);
+        double? result = null;
+        if (operation == Operation.Reciprocal || operation == Operation.Square || operation == Operation.SquareRoot || operation == Operation.ReverseSign)
+        {
+            result = RunMathOperation(a, operation);
+        }
+        else
+        {
+            result = RunMathOperation(a, b, operation);
+        }
+
         if (result is null)
         {
             primaryInput = "eh?";
