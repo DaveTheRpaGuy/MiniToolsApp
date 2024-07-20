@@ -52,6 +52,10 @@ h1:focus {
 
 
 /* Custom CSS Below */
+.remove-focus-border {
+    outline: none;
+}
+
 .calculator div.col {
     margin: .1rem;
     padding: 0;
@@ -76,3 +80,8 @@ h1:focus {
         border-color: #4cc2ff;
         color: black;
     }
+.calculator input {
+    background-color: var(--bs-body-bg);
+    border: none;
+    color: var(--bs-body-color);
+}

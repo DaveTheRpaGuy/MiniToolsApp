@@ -4,108 +4,181 @@
 @using CalculatorLibrary
 
 <h1>Calculator</h1>
-<div class="calculator container text-center">
+<div class="calculator container remove-focus-border" @ref="calcRef" tabindex="0" @onkeypress="KeyboardEventHandler">
     <div class="row">
-        <input class="fs-4 text-end" type="text" @bind="secondaryInput" />
+        <input class="fs-6 text-end" disabled type="text" @bind="secondaryInput" />
     </div>
     <div class="row">
-        
-        <input class="fs-1 text-end" type="text" @bind="primaryInput"/>
-    </div>
-    <div class="row">
-        <div class="col">
-            <button class="btn btn-primary btn-outer" id="modulus">%</button>
-        </div>
-        <div class="col">
-            <button class="btn btn-primary btn-outer" id="clearEntry">CE</button>
-        </div>
-        <div class="col">
-            <button class="btn btn-primary btn-outer" id="clearCalc" @onclick="(() => ClearAllInputs())">C</button>
-        </div>
-        <div class="col">
-            <button class="btn btn-primary btn-outer" id="backspace">B</button>
-        </div>
+        <input class="fs-1 fw-bold text-end" disabled type="text" @bind="primaryInput" />
     </div>
     <div class="row">
         <div class="col">
-            <button class="btn btn-primary btn-outer" id="reciprocal">1/X</button>
+            <button class="btn btn-primary btn-outer" @onclick="(() => SubmitFirstNumber(Operation.Modulus))" @onkeypress:preventDefault>%</button>
         </div>
         <div class="col">
-            <button class="btn btn-primary btn-outer" id="square">Sq</button>
+            <button class="btn btn-primary btn-outer" @onkeypress:preventDefault>CE</button>
         </div>
         <div class="col">
-            <button class="btn btn-primary btn-outer" id="squareRoot">SqRt</button>
+            <button class="btn btn-primary btn-outer" @onclick="(() => ClearAllInputs())" @onkeypress:preventDefault>C</button>
         </div>
         <div class="col">
-            <button class="btn btn-primary btn-outer" id="divide" @onclick="(() => SubmitFirstNumber(Operation.Divide))">/</button>
+            <button class="btn btn-primary btn-outer" @onclick="(() => Backspace())" @onkeypress:preventDefault>B</button>
         </div>
     </div>
     <div class="row">
         <div class="col">
-            <button class="btn btn-primary btn-core" id="seven" @onclick="(() => AppendNumberToPrimaryInput(7))">7</button>
+            <button class="btn btn-primary btn-outer" @onclick="(() => SubmitFirstNumber(Operation.Reciprocal))" @onkeypress:preventDefault>1/X</button>
         </div>
         <div class="col">
-            <button class="btn btn-primary btn-core" id="eight" @onclick="(() => AppendNumberToPrimaryInput(8))">8</button>
+            <button class="btn btn-primary btn-outer" @onkeypress:preventDefault>Sq</button>
         </div>
         <div class="col">
-            <button class="btn btn-primary btn-core" id="nine" @onclick="(() => AppendNumberToPrimaryInput(9))">9</button>
+            <button class="btn btn-primary btn-outer" @onkeypress:preventDefault>SqRt</button>
         </div>
         <div class="col">
-            <button class="btn btn-primary btn-outer" id="multiply" @onclick="(() => SubmitFirstNumber(Operation.Multiply))">x</button>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col">
-            <button class="btn btn-primary btn-core" id="four" @onclick="(() => AppendNumberToPrimaryInput(4))">4</button>
-        </div>
-        <div class="col">
-            <button class="btn btn-primary btn-core" id="fifth" @onclick="(() => AppendNumberToPrimaryInput(5))">5</button>
-        </div>
-        <div class="col">
-            <button class="btn btn-primary btn-core" id="six" @onclick="(() => AppendNumberToPrimaryInput(6))">6</button>
-        </div>
-        <div class="col">
-            <button class="btn btn-primary btn-outer" id="subtract" @onclick="(() => SubmitFirstNumber(Operation.Subtract))">-</button>
+            <button class="btn btn-primary btn-outer" @onclick="(() => SubmitFirstNumber(Operation.Divide))" @onkeypress:preventDefault>/</button>
         </div>
     </div>
     <div class="row">
         <div class="col">
-            <button class="btn btn-primary btn-core" id="one" @onclick="(() => AppendNumberToPrimaryInput(1))">1</button>
+            <button class="btn btn-primary btn-core" @onclick="(() => AppendNumberToPrimaryInput(7))" @onkeypress:preventDefault>7</button>
         </div>
         <div class="col">
-            <button class="btn btn-primary btn-core" id="two" @onclick="(() => AppendNumberToPrimaryInput(2))">2</button>
+            <button class="btn btn-primary btn-core" @onclick="(() => AppendNumberToPrimaryInput(8))" @onkeypress:preventDefault>8</button>
         </div>
         <div class="col">
-            <button class="btn btn-primary btn-core" id="three" @onclick="(() => AppendNumberToPrimaryInput(3))">3</button>
+            <button class="btn btn-primary btn-core" @onclick="(() => AppendNumberToPrimaryInput(9))" @onkeypress:preventDefault>9</button>
         </div>
         <div class="col">
-            <button class="btn btn-primary btn-outer" id="plus" @onclick="(() => SubmitFirstNumber(Operation.Add))">+</button>
+            <button class="btn btn-primary btn-outer" @onclick="(() => SubmitFirstNumber(Operation.Multiply))" @onkeypress:preventDefault>x</button>
         </div>
     </div>
     <div class="row">
         <div class="col">
-            <button class="btn btn-primary btn-core" id="sign">+/-</button>
+            <button class="btn btn-primary btn-core" @onclick="(() => AppendNumberToPrimaryInput(4))" @onkeypress:preventDefault>4</button>
         </div>
         <div class="col">
-            <button class="btn btn-primary btn-core" id="zero" @onclick="(() => AppendNumberToPrimaryInput(0))">0</button>
+            <button class="btn btn-primary btn-core" @onclick="(() => AppendNumberToPrimaryInput(5))" @onkeypress:preventDefault>5</button>
         </div>
         <div class="col">
-            <button class="btn btn-primary btn-core" id="decimal" @onclick="(() => AppendCharToPrimaryInput('.'))">.</button>
+            <button class="btn btn-primary btn-core" @onclick="(() => AppendNumberToPrimaryInput(6))" @onkeypress:preventDefault>6</button>
         </div>
         <div class="col">
-            <button class="btn btn-primary btn-equals" id="equals" @onclick="(() => RunEquals())">=</button>
+            <button class="btn btn-primary btn-outer" @onclick="(() => SubmitFirstNumber(Operation.Subtract))">-</button>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <button class="btn btn-primary btn-core" @onclick="(() => AppendNumberToPrimaryInput(1))" @onkeypress:preventDefault>1</button>
+        </div>
+        <div class="col">
+            <button class="btn btn-primary btn-core" @onclick="(() => AppendNumberToPrimaryInput(2))" @onkeypress:preventDefault>2</button>
+        </div>
+        <div class="col">
+            <button class="btn btn-primary btn-core" @onclick="(() => AppendNumberToPrimaryInput(3))" @onkeypress:preventDefault>3</button>
+        </div>
+        <div class="col">
+            <button class="btn btn-primary btn-outer" @onclick="(() => SubmitFirstNumber(Operation.Add))" @onkeypress:preventDefault>+</button>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <button class="btn btn-primary btn-core" @onkeypress:preventDefault>+/-</button>
+        </div>
+        <div class="col">
+            <button class="btn btn-primary btn-core" @onclick="(() => AppendNumberToPrimaryInput(0))" @onkeypress:preventDefault>0</button>
+        </div>
+        <div class="col">
+            <button class="btn btn-primary btn-core" @onclick="(() => AppendToPrimaryInput('.'))" @onkeypress:preventDefault>.</button>
+        </div>
+        <div class="col">
+            <button class="btn btn-primary btn-equals" @onclick="(() => RunEquals())" @onkeypress:preventDefault>=</button>
         </div>
     </div>
 </div>
 
 @code {
-    private string primaryInput = "";
+    private string primaryInput = "0";
+    // public string primaryInput
+    // {
+    //     get { return _primaryInput.Replace(",","");}
+    //     set
+    //     {
+    //         _primaryInput = "";
+    //         int count = 0;
+    //         foreach (char c in primaryInput)
+    //         {
+    //             _primaryInput += c;
+    //             count++;
+    //             if (count % 3 == 0 && count < primaryInput.Length)
+    //             {
+    //                 _primaryInput = "," + _primaryInput;
+    //             }
+    //         }
+    //     }
+    // }
+
     private string secondaryInput = "";
     private double? firstNumber = null;
     private double? secondNumber = null;
     private Operation operation = Operation.None;
     private bool clearPrimaryInput = false;
     private bool clearSecondaryInput = false;
+    private string keyPressed = "";
+    bool IsShiftKey;
+    private ElementReference calcRef;
+    string[] allowedKeys = { "1", "2", "3", "4", "5", "6", "7", "8", "9", "0", ".", "+", "-", "*", "/", "%", "=", "Enter" };
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if(firstRender)
+        {
+            await calcRef.FocusAsync();
+        }
+    }
+
+    private void KeyboardEventHandler(KeyboardEventArgs args)
+    {
+        keyPressed = args.Key;
+        if (allowedKeys.Contains(keyPressed) == false) return;
+        if (double.TryParse(keyPressed, out _))
+        {
+            AppendNumberToPrimaryInput(int.Parse(keyPressed));
+        }
+        else if (keyPressed == ".")
+        {
+            AppendToPrimaryInput(Convert.ToChar(keyPressed));
+        }
+        else if (keyPressed == "+")
+        {
+            SubmitFirstNumber(Operation.Add);
+        }
+        else if (keyPressed == "-")
+        {
+            SubmitFirstNumber(Operation.Subtract);
+        }
+        else if (keyPressed == "*")
+        {
+            SubmitFirstNumber(Operation.Multiply);
+        }
+        else if (keyPressed == "/")
+        {
+            SubmitFirstNumber(Operation.Divide);
+        }
+        else if (keyPressed == "%")
+        {
+            SubmitFirstNumber(Operation.Modulus);
+        }
+        else if (keyPressed == "Enter")
+        {
+            RunEquals();
+        }
+        else if (keyPressed == "ESC")
+        {
+            ClearAllInputs();
+        }
+
+    }
 
     private enum Operation
     {
@@ -113,17 +186,22 @@
         Add,
         Subtract,
         Multiply,
-        Divide
+        Divide,
+        Modulus,
+        Reciprocal,
+        Square,
+        SquareRoot,
+        ReverseSign
     }
 
     private void AppendNumberToPrimaryInput(int num)
     {
         ClearPrimaryInputIfApplicable();
         ClearSecondaryInputIfApplicable();
-        primaryInput += num.ToString();
+        primaryInput = double.Parse(primaryInput + num.ToString()).ToString();
     }
 
-    private void AppendCharToPrimaryInput(char c)
+    private void AppendToPrimaryInput(char c)
     {
         ClearPrimaryInputIfApplicable();
         ClearSecondaryInputIfApplicable();
@@ -134,7 +212,7 @@
     {
         if (clearPrimaryInput)
         {
-            primaryInput = "";
+            primaryInput = "0";
             clearPrimaryInput = false;
         }
     }
@@ -156,12 +234,28 @@
         ClearSecondaryInputIfApplicable();
     }
 
+    private void Backspace()
+    {
+        if (primaryInput.Length > 0)
+        {
+            primaryInput = primaryInput.Substring(0, primaryInput.Length - 1);
+        }
+    }
+
     private void SubmitFirstNumber(Operation op)
     {
         firstNumber = double.Parse(primaryInput);
         operation = op;
         secondaryInput = firstNumber.ToString() + " " + GetOperationChar(op);
-        clearPrimaryInput = true;
+        if(op == Operation.Reciprocal || op == Operation.Square || op == Operation.SquareRoot)
+        {
+
+        }
+        else
+        {
+            clearPrimaryInput = true;
+        }
+
     }
 
     private void RunEquals()
@@ -201,6 +295,21 @@
             case Operation.Divide:
                 output = "/";
                 break;
+            case Operation.Modulus:
+                output = "%";
+                break;
+            case Operation.Reciprocal:
+                output = "1/x";
+                break;
+            case Operation.Square:
+                output = "Sq";
+                break;
+            case Operation.SquareRoot:
+                output = "SqRt";
+                break;
+            case Operation.ReverseSign:
+                output = "+/-";
+                break;
             default:
                 output = "";
                 break;
@@ -225,6 +334,34 @@
                 break;
             case Operation.Divide:
                 output = math.Divide(a, b);
+                break;
+            case Operation.Modulus:
+                output = math.Modulus(a, b);
+                break;
+            default:
+                output = null;
+                break;
+        }
+        return output;
+    }
+
+    private double? RunMathOperation(double a, Operation op)
+    {
+        MathOperations math = new MathOperations();
+        double? output = null;
+        switch (op)
+        {
+            case Operation.Reciprocal:
+                output = math.Reciprocal(a);
+                break;
+            case Operation.Square:
+                output = math.Square(a);
+                break;
+            case Operation.SquareRoot:
+                output = math.SquareRoot(a);
+                break;
+            case Operation.ReverseSign:
+                output = math.ReverseSign(a);
                 break;
             default:
                 output = null;
