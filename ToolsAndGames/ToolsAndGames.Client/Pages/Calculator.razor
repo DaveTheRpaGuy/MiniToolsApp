@@ -104,11 +104,14 @@
         get { return _primaryInput;}
         set
         {
+            string val = value.Replace(",", "");
+            int decimalIndex = val.IndexOf(".");
             _primaryInput = "";
             int count = 0;
-            for(int i = value.Length-1; i > -1; i--)
+            for (int i = val.Length - 1; i > -1; i--)
             {
-                _primaryInput = value[i] + _primaryInput;
+                _primaryInput = val[i] + _primaryInput;
+                if (decimalIndex >-1 && decimalIndex <= i) continue;
                 count++;
                 if (count % 3 == 0 && i > 0)
                 {
